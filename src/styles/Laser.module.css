@@ -1,0 +1,111 @@
+.container {
+    --border-color: #112129;
+    position: fixed;
+    top: 50%;
+    left: -20px;
+    width: 0;
+    height: 0;
+    transform: rotate(-90deg);
+}
+
+.laser {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+    height: 120px;
+    background: #b8b8b8;
+    border-radius: 0 0 40% 40%;
+    justify-content: space-around;
+    position: relative;
+    border-right: 5px solid var(--border-color);
+    border-left: 5px solid var(--border-color);
+    border-bottom: 5px solid #274f5e;
+    transform: translate(-50%, 40px);
+    transform-origin: 50% 0;
+    box-shadow: inset 5px -5px 20px #515151,
+    inset 5px 5px 20px #f3f3f3;
+    z-index: 10;
+}
+
+.laser > :first-child {
+    margin-top: 10px;
+}
+
+.laser > :last-child {
+    margin-bottom: 20px;
+}
+
+.ray {
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(90deg, #ffbe4f, #ff3219, #ffb94f);
+    border-radius: 0 0 5px 5px;
+    transform: translate(-50%, 0);
+    z-index: 0;
+}
+
+.ray::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(5px);
+    background: linear-gradient(90deg, #ffbe4f, #ff3219, #ffb94f);
+}
+
+.ray::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 101%;
+    filter: blur(15px);
+    background: linear-gradient(90deg, #ffbe4f, #ff7d20, #ffb94f);
+}
+
+.stage {
+    width: 200%;
+    height: 10px;
+    background: var(--border-color);
+    border-radius: 10px;
+    box-shadow: inset -1px 1px 3px #1e3d4a,
+    inset 1px -1px 3px #0a0f15;
+}
+
+
+.foundation {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    background: var(--border-color);
+    border-radius: 50%;
+    box-shadow: inset -5px 5px 10px #1e3d4a,
+    inset 5px -5px 10px #0a0f15;
+    z-index: 10;
+}
+
+.wave {
+    position: absolute;
+    border-radius: 50%;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    filter: blur(10px);
+    background: radial-gradient(#ff3219,#ff992f,transparent,transparent,rgba(0,0,0,0));
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
