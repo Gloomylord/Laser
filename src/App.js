@@ -1,6 +1,8 @@
 import React, {useCallback} from 'react';
 import './styles/App.css';
 import Laser from "./components/Laser";
+import Text from "./components/Text";
+import Title from "./components/Title";
 
 
 function App() {
@@ -8,7 +10,9 @@ function App() {
 
     return (
         <div className="App" onDragStart={onDragStart}>
+            <Title/>
             <Laser/>
+            <Text/>
         </div>
     );
 }

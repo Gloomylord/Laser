@@ -23,7 +23,22 @@ const Laser = React.forwardRef(function (props, ref) {
             let rot = -radian * 180 / Math.PI;
             origin.style.transform = `rotate(${rot}deg)`;
             ray.current.style.height = Math.sqrt((e.clientX - x) ** 2 + (e.clientY - y) ** 2) + 5 + 'px';
-            wave.current.style.top = Math.sqrt((e.clientX - x) ** 2 + (e.clientY - y) ** 2) +   'px';
+            wave.current.style.top = Math.sqrt((e.clientX - x) ** 2 + (e.clientY - y) ** 2) + 'px';
+
+            if (ray.current.style.cssText.indexOf('block') > -1) {
+
+                ray.current.style.visibility = 'hidden';
+                wave.current.style.visibility = 'hidden';
+
+                let elemBelow = document.elementFromPoint(e.clientX, e.clientY);
+                if (elemBelow?.classList.contains("letter")) {
+                    elemBelow.style.color = '#ff992f';
+                }
+
+                ray.current.style.visibility = 'visible';
+                wave.current.style.visibility = 'visible';
+            }
+
         });
 
         positionAnimate.to(foundation.current, {
@@ -49,6 +64,7 @@ const Laser = React.forwardRef(function (props, ref) {
         positionAnimate.set(ray.current, {
             display: 'block',
         });
+
         positionAnimate.set(wave.current, {
             display: 'block',
         });
@@ -60,6 +76,7 @@ const Laser = React.forwardRef(function (props, ref) {
         document.addEventListener('mouseup', (e) => {
             positionAnimate.reverse();
         });
+
     }, []);
 
     const onDragStart = useCallback((e) => e.preventDefault(), []);
