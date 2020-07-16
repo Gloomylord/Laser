@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useRef} from "react";
 import styles from '../styles/Laser.module.css';
 import {TimelineMax} from 'gsap';
+import {inject, observer} from "mobx-react";
 
-
-const Laser = React.forwardRef(function (props, ref) {
+const Laser = (function ({mainStore}) {
     let laser = useRef(null);
     let foundation = useRef(null);
     let ray = useRef(null);
@@ -32,12 +32,17 @@ const Laser = React.forwardRef(function (props, ref) {
 
                 let elemBelow = document.elementFromPoint(e.clientX, e.clientY);
                 if (elemBelow?.classList.contains("letter")) {
-                    elemBelow.style.color = '#ff992f';
+                    if(elemBelow.parentElement.tagName === 'H1') {
+                        mainStore.changeTitleLetterColor(elemBelow.dataset.id);
+                    } else if(elemBelow.parentElement.tagName === 'P') {
+                        mainStore.changeTextLetterColor(elemBelow.dataset.id);
+                    }
                 }
 
                 ray.current.style.visibility = 'visible';
                 wave.current.style.visibility = 'visible';
             }
+
 
         });
 
@@ -79,6 +84,7 @@ const Laser = React.forwardRef(function (props, ref) {
 
     }, []);
 
+
     const onDragStart = useCallback((e) => e.preventDefault(), []);
 
     return (
@@ -96,4 +102,4 @@ const Laser = React.forwardRef(function (props, ref) {
 });
 
 
-export default Laser;
+export default inject('mainStore')(observer(Laser));

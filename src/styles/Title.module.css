@@ -9,3 +9,11 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.defaultColor {
+    color: #fff;
+}
+
+.changed {
+    color: #ff992f;
+}
