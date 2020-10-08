@@ -1,18 +1,16 @@
 import React from "react";
 import styles from '../styles/Text.module.css';
-import {inject, observer} from "mobx-react";
+import obj from './lorem';
 
-function Text(props) {
-
+function Text() {
     return (
         <p className={styles.text}>
-            {props.mainStore.text.map((value, i) =>
+            {obj.text.split('').map((value, i) =>
                 <span key={i}
-                      style={{ color: value.defaultColor ? '#fff' : '#ff992f'}}
-                      data-id={i}
-                      className='letter'>{value.letter + ' '}</span>)}
+                      style={{ color:  '#fff' }}
+                      className='letter'>{value}</span>)}
         </p>
     )
 }
 
-export default inject('mainStore')(observer(Text));
+export default Text;

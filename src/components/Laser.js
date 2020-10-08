@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef} from "react";
 import styles from '../styles/Laser.module.css';
 import {TimelineMax} from 'gsap';
-import {inject, observer} from "mobx-react";
 
 const Laser = (function ({mainStore}) {
     let laser = useRef(null);
@@ -15,7 +14,7 @@ const Laser = (function ({mainStore}) {
         positionAnimate.pause();
         let stages = laser.current.children;
 
-        document.addEventListener('mousemove', (e) => {
+        function mouseMove(e){
             const origin = container.current;
             let x = origin.getBoundingClientRect().left + origin.clientWidth / 2;
             let y = origin.getBoundingClientRect().top + origin.clientHeight / 2;
@@ -32,19 +31,26 @@ const Laser = (function ({mainStore}) {
 
                 let elemBelow = document.elementFromPoint(e.clientX, e.clientY);
                 if (elemBelow?.classList.contains("letter")) {
-                    if(elemBelow.parentElement.tagName === 'H1') {
-                        mainStore.changeTitleLetterColor(elemBelow.dataset.id);
-                    } else if(elemBelow.parentElement.tagName === 'P') {
-                        mainStore.changeTextLetterColor(elemBelow.dataset.id);
-                    }
+                    elemBelow.style.color = '#ff992f';
                 }
 
                 ray.current.style.visibility = 'visible';
                 wave.current.style.visibility = 'visible';
             }
+        }
 
+        function mouseDown() {
+            positionAnimate.reversed(false).play();
+        }
+        function mouseUp() {
+            positionAnimate.reverse();
+        }
 
-        });
+        document.addEventListener('mousemove', mouseMove);
+
+        document.addEventListener('mousedown', mouseDown);
+
+        document.addEventListener('mouseup', mouseUp);
 
         positionAnimate.to(foundation.current, {
             ease: 'sine',
@@ -74,13 +80,12 @@ const Laser = (function ({mainStore}) {
             display: 'block',
         });
 
-        document.addEventListener('mousedown', (e) => {
-            positionAnimate.reversed(false).play();
-        });
 
-        document.addEventListener('mouseup', (e) => {
-            positionAnimate.reverse();
-        });
+        return ()=>{
+            document.removeEventListener('mousemove', mouseMove);
+            document.removeEventListener('mousedown', mouseDown);
+            document.removeEventListener('mouseup', mouseUp);
+        }
 
     }, []);
 
@@ -102,4 +107,4 @@ const Laser = (function ({mainStore}) {
 });
 
 
-export default inject('mainStore')(observer(Laser));
+export default Laser;
